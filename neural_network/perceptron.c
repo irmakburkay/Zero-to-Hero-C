@@ -1,47 +1,59 @@
-#include "hperceptron.h"
-#include "hutils.h"
+#include <stdio.h>
 #include <stdlib.h>
 
+#include "hutils.h"
+#include "hperceptron.h"
 
-Perceptron *perceptron_init(int input_size, Activation act_func)
+
+Perceptron *perceptron_init(int input_size, Activation activation)
 {
-    Perceptron *p = (Perceptron *)malloc(sizeof(Perceptron));
+    Perceptron *p = (Perceptron*) malloc(sizeof(Perceptron));
     p->input_size = input_size;
-    p->weights = (float *)malloc(sizeof(float) * input_size);
+    p->activation = activation;
+    
+    p->weights = (float*) malloc(sizeof(float) * input_size);
     for (int i = 0; i < input_size; i++)
         p->weights[i] = random_float();
     p->bias = random_float();
-    p->act_func = act_func;
-    p->last_inputs = (float *)malloc(sizeof(float) * input_size);
-    p->last_output = 0.0f;
+    p->inputs = (float*) malloc(sizeof(float) * input_size);
+    p->output = 0.0f;
 
     return p;
 }
 
-float perceptron_forward(Perceptron *p, float *inputs)
+void perceptron_forward(Perceptron *p, float *inputs)
 {
-
     float sum = p->bias;
 
     for (int i = 0; i < p->input_size; i++)
-        p->last_inputs[i] = inputs[i];
+        p->inputs[i] = inputs[i];
     
     for (int i = 0; i < p->input_size; i++)
         sum += p->weights[i] * inputs[i];
 
-    p->last_output = activation(sum, p->act_func);
-    return p->last_output;
-
+    p->output = activation(sum, p->activation);
 }
 
-void perceptron_backward(Perceptron *p, float y_true, float learning_rate, Loss loss_func)
+void perceptron_backward(Perceptron *p, float y_true, float learning_rate, Loss loss)
 {
-    float error = d_loss(p->last_output, y_true, loss_func);
-    float delta = error * d_activation(p->last_output, p->act_func);
+    float error = d_loss(p->output, y_true, loss);
+    float delta = error * d_activation(p->output, p->activation);
     for (int i = 0; i < p->input_size; i++)
-        p->weights[i] -= learning_rate * delta * p->last_inputs[i];
+        p->weights[i] -= learning_rate * delta * p->inputs[i];
 
     p->bias -= learning_rate * delta;
+}
+
+void perceptron_print_out(Perceptron *p)
+{
+    printf("[");
+    for (int i = 0; i < p->input_size; i++)
+    {
+        printf("%f", p->inputs[i]);
+        if (i != p->input_size - 1)
+            printf(", ");
+    }
+    printf("] -> [%f]", p->output);
 }
 
 void perceptron_free(Perceptron **p)
@@ -49,6 +61,6 @@ void perceptron_free(Perceptron **p)
     if (!p || !(*p))
         return;
     SAFE_FREE((*p)->weights);
-    SAFE_FREE((*p)->last_inputs);
+    SAFE_FREE((*p)->inputs);
     SAFE_FREE(*p);
 }

@@ -1,5 +1,7 @@
-#include "hactivation.h"
 #include <math.h>
+
+#include "hactivation.h"
+
 
 float relu(float x)
 {
@@ -32,9 +34,9 @@ float d_tanh2(float x)
     return 1 - pow(tanh2(x), 2);
 }
 
-float activation(float x, Activation act_func)
+float activation(float x, Activation activation)
 {
-    switch (act_func)
+    switch (activation)
     {
     case RELU:
         return relu(x);
@@ -45,9 +47,9 @@ float activation(float x, Activation act_func)
     }
 }
 
-float d_activation(float x, Activation act_func)
+float d_activation(float x, Activation activation)
 {
-    switch (act_func)
+    switch (activation)
     {
     case RELU:
         return d_relu(x);

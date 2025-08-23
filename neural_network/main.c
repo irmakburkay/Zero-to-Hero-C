@@ -1,40 +1,51 @@
-#include "hutils.h"
-#include "hperceptron.h"
 #include <stdio.h>
+
+#include "hutils.h"
+#include "hlayer.h"
+
 
 int main()
 {
     random_init();
     
+    int batch_size = 4;
+    int input_size = 2;
+    int perceptron_count = 1;
     float learning_rate = 0.1;
     int epochs = 1000;
     
-    // AND dataset
+    // XOR dataset
     float X[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
-    float y[4] = {0, 0, 0, 1};
+    float y[4][1] = {{0}, {0}, {0}, {1}};
 
-    Perceptron *p = perceptron_init(2, SIGMOID);
+    Layer *l = layer_init(perceptron_count, input_size, SIGMOID);
 
     for (int e = 0; e < epochs; e++)
     {
         float total_loss = 0.0f;
-        for (int i = 0; i < 4; i++)
+
+        for (int i = 0; i < batch_size; i++)
         {
-            float pred = perceptron_forward(p, X[i]);
-            perceptron_backward(p, y[i], learning_rate, MSE);
-            total_loss += loss(y[i], pred, MSE);
+            layer_forward(l, X[i]);
+            layer_backward(l, y[i], learning_rate, MSE);
+
+            float layer_loss = 0.0f;
+            for (int j = 0; j < l->p_count; j++)
+                layer_loss += loss(y[i][j], *(l->outputs[j]), MSE);
+            total_loss += layer_loss / l->p_count;
         }
+
         if (e % 100 == 0)
             printf("Epoch %d, loss: %f\n", e, total_loss);
     }
 
     printf("\nPreds:\n");
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < batch_size; i++)
     {
-        float pred = perceptron_forward(p, X[i]);
-        printf("[%d, %d] -> %f\n", (int)X[i][0], (int)X[i][1], pred);
+        layer_forward(l, X[i]);
+        layer_print_out(l);
     }
 
-    perceptron_free(&p);
+    layer_free(&l);
     return 0;
 }

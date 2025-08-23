@@ -1,6 +1,7 @@
-#include "hutils.h"
-#include <stdlib.h>
 #include <time.h>
+
+#include "hutils.h"
+
 
 void random_init()
 {

@@ -1,6 +1,7 @@
 #ifndef HLOSS
 #define HLOSS
 
+
 typedef enum
 {
     MSE,

@@ -11,6 +11,8 @@
 #ifndef HUTILS
 #define HUTILS
 
+#include <stdlib.h>
+
 void random_init();
 float random_float();
 
