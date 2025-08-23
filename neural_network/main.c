@@ -1,37 +1,40 @@
 #include "hutils.h"
-#include "hmatrix.h"
-#include "hlayer.h"
-#include "hnetwork.h"
+#include "hperceptron.h"
 #include <stdio.h>
-#include <stdlib.h>
-
 
 int main()
 {
     random_init();
+    
+    float learning_rate = 0.1;
+    int epochs = 1000;
+    
+    // AND dataset
+    float X[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    float y[4] = {0, 0, 0, 1};
 
-    // XOR dataset
-    BatchMatrix* X = batchMatrix_init(4, 2, 1);
-    BatchMatrix* y = batchMatrix_init(4, 1, 1);
-    X->matrix[1]->data[0][0] = 1;
-    X->matrix[2]->data[1][0] = 1;
-    X->matrix[3]->data[0][0] = 1;
-    X->matrix[3]->data[1][0] = 1;
-    y->matrix[1]->data[0][0] = 1;
-    y->matrix[2]->data[0][0] = 1;
+    Perceptron *p = perceptron_init(2, SIGMOID);
 
-    Network* network = network_init(2);
+    for (int e = 0; e < epochs; e++)
+    {
+        float total_loss = 0.0f;
+        for (int i = 0; i < 4; i++)
+        {
+            float pred = perceptron_forward(p, X[i]);
+            perceptron_backward(p, y[i], learning_rate, MSE);
+            total_loss += loss(y[i], pred, MSE);
+        }
+        if (e % 100 == 0)
+            printf("Epoch %d, loss: %f\n", e, total_loss);
+    }
 
-    network->layers = (Layer**)malloc(sizeof(Layer*) * 2);
-    network->layers[0] = layer_init(2, 1, 2, relu);
-    network->layers[1] = layer_init(2, 1, 1, sigmoid);
+    printf("\nPreds:\n");
+    for (int i = 0; i < 4; i++)
+    {
+        float pred = perceptron_forward(p, X[i]);
+        printf("[%d, %d] -> %f\n", (int)X[i][0], (int)X[i][1], pred);
+    }
 
-    BatchMatrix* outputs = network_forward(network, X);
-    batchMatrix_print(outputs);
-
-    free_batchMatrix(&outputs);
-    free_batchMatrix(&X);
-    free_batchMatrix(&y);
-    free_network(&network);
+    perceptron_free(&p);
     return 0;
 }

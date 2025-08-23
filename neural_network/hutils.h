@@ -1,15 +1,17 @@
-#define SHAPE(x, y) (int[]){x, y}
+#define SAFE_FREE(ptr)    \
+    do                    \
+    {                     \
+        if (ptr)          \
+        {                 \
+            free(ptr);    \
+            (ptr) = NULL; \
+        }                 \
+    } while (0)
 
-#ifndef hutils
-#define hutils
-#include "hmatrix.h"
+#ifndef HUTILS
+#define HUTILS
 
 void random_init();
-float* random_number_generator(int);
-float relu(float);
-float sigmoid(float);
-float d_sigmoid(float);
-float tanh2(float);
-float d_tanh(float);
+float random_float();
 
 #endif

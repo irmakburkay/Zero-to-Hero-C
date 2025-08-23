@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "hnetwork.h": "c",
+        "hlayer.h": "c",
+        "hmatrix.h": "c",
+        "hutils.h": "c",
+        "hperceptron.h": "c",
+        "activation.h": "c",
+        "hactivation.h": "c",
+        "hloss.h": "c",
+        "stdio.h": "c"
+    }
+}
