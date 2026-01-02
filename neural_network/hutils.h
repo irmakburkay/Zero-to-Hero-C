@@ -15,5 +15,6 @@
 
 void random_init();
 float random_float();
+float xavier_init(int input_size);
 
 #endif

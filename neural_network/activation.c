@@ -34,9 +34,9 @@ float d_tanh2(float x)
     return 1 - pow(tanh2(x), 2);
 }
 
-float activation(float x, Activation activation)
+float activation(float x, Activation act_func)
 {
-    switch (activation)
+    switch (act_func)
     {
     case RELU:
         return relu(x);
@@ -47,9 +47,9 @@ float activation(float x, Activation activation)
     }
 }
 
-float d_activation(float x, Activation activation)
+float d_activation(float x, Activation act_func)
 {
-    switch (activation)
+    switch (act_func)
     {
     case RELU:
         return d_relu(x);
