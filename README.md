@@ -74,6 +74,28 @@ Feel free to explore, learn, and contribute! This repository serves as both a le
 
 This project is open source and available under the [MIT License](LICENSE).
 
+## 📋 TODO & Future Enhancements
+
+- [ ] **Mini-batch Processing**
+  - [ ] Mini-batch gradient descent implementation
+  - [ ] Dynamic batch size handling
+
+- [ ] **Loss Functions**
+  - [ ] Binary cross-entropy loss
+  - [ ] Categorical cross-entropy loss
+
+- [ ] **Advanced Layers**
+  - [ ] 2D Convolution layer
+  - [ ] Batch normalization layer
+  - [ ] Flatten layer (conv → dense)
+
+- [ ] **GPU Acceleration**
+  - [ ] CUDA support for matrix operations
+  - [ ] GPU memory management
+
+- [ ] **Datasets**
+  - [ ] MNIST digit recognition implementation
+
 ---
 
 **"The journey from zero to hero is not about the destination, but about the knowledge gained along the way."** 🌟

@@ -140,6 +140,28 @@ The `-lm` flag links the math library for:
 - `pow()` - Power functions
 - `fabs()` - Absolute value (error calculation)
 
+## 📋 TODO & Future Enhancements
+
+- [ ] **Mini-batch Processing**
+  - [ ] Mini-batch gradient descent implementation
+  - [ ] Dynamic batch size handling
+
+- [ ] **Loss Functions**
+  - [ ] Binary cross-entropy loss
+  - [ ] Categorical cross-entropy loss
+
+- [ ] **Advanced Layers**
+  - [ ] 2D Convolution layer
+  - [ ] Batch normalization layer
+  - [ ] Flatten layer (conv → dense)
+
+- [ ] **GPU Acceleration**
+  - [ ] CUDA support for matrix operations
+  - [ ] GPU memory management
+
+- [ ] **Datasets**
+  - [ ] MNIST digit recognition implementation
+
 ---
 
 **"Understanding neural networks at the mathematical level is the key to mastering artificial intelligence."** 🧠✨
